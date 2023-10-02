@@ -1,0 +1,74 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C/C++: g++ make, run, and debug imgviewer",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/imgviewer",
+            "args": [
+                "${input:flagPrompt}",
+                "${input:filenamePrompt}"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/home/dmumm/4040/p1_dev/build/lib"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "make clean and make img",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "C/C++: run imgviewer",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/imgviewer",
+            "args": [
+                "${input:flagPrompt}",
+                "${input:filenamePrompt}"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/home/dmumm/4040/p1_dev/build/lib"
+                }
+            ],
+        }
+    ],
+    "inputs": [
+        {
+          "id": "flagPrompt",
+          "description": "Please enter a flag",
+          "type": "promptString",
+          "default": "-image"
+        },
+        {
+            "id": "filenamePrompt",
+            "description": "Please enter a path to an image file",
+            "type": "promptString",
+            "default": "../100_0093.jpeg"
+        }
+    ]
+}

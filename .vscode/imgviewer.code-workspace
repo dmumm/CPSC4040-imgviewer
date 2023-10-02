@@ -1,0 +1,117 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"C__Cpp.default.cppStandard": "c++14",
+		"files.associations": {
+            "img_viewer.C": "cpp",
+            "cmath": "cpp",
+            "cstring": "cpp",
+            "iostream": "cpp",
+            "sstream": "cpp",
+            "string": "cpp",
+            "vector": "cpp",
+            "cctype": "cpp",
+            "clocale": "cpp",
+            "cstdarg": "cpp",
+            "cstddef": "cpp",
+            "cstdio": "cpp",
+            "cstdlib": "cpp",
+            "ctime": "cpp",
+            "cwchar": "cpp",
+            "cwctype": "cpp",
+            "array": "cpp",
+            "atomic": "cpp",
+            "bit": "cpp",
+            "*.tcc": "cpp",
+            "chrono": "cpp",
+            "compare": "cpp",
+            "concepts": "cpp",
+            "condition_variable": "cpp",
+            "cstdint": "cpp",
+            "deque": "cpp",
+            "map": "cpp",
+            "set": "cpp",
+            "unordered_map": "cpp",
+            "exception": "cpp",
+            "algorithm": "cpp",
+            "functional": "cpp",
+            "iterator": "cpp",
+            "memory": "cpp",
+            "memory_resource": "cpp",
+            "numeric": "cpp",
+            "optional": "cpp",
+            "random": "cpp",
+            "ratio": "cpp",
+            "string_view": "cpp",
+            "system_error": "cpp",
+            "tuple": "cpp",
+            "type_traits": "cpp",
+            "utility": "cpp",
+            "fstream": "cpp",
+            "future": "cpp",
+            "initializer_list": "cpp",
+            "iomanip": "cpp",
+            "iosfwd": "cpp",
+            "istream": "cpp",
+            "limits": "cpp",
+            "mutex": "cpp",
+            "new": "cpp",
+            "ostream": "cpp",
+            "ranges": "cpp",
+            "stdexcept": "cpp",
+            "stop_token": "cpp",
+            "streambuf": "cpp",
+            "thread": "cpp",
+            "cinttypes": "cpp",
+            "typeinfo": "cpp",
+            "imgviewer.C": "cpp",
+            "BasicViewer.C": "cpp",
+            "dylproc.C": "cpp",
+            "Image.C": "cpp",
+            "list": "cpp"
+        },
+        "makefile.configurations": [
+
+            {
+                "name": "myTestDefault",
+                "makeArgs": [],
+                "makeDirectory": "${workspaceRoot}",
+                "makefilePath": "${workspaceRoot}/Makefile",
+                "makePath": "/usr/bin/make",
+                "problemMatchers": [
+                    "$gcc",
+                    "$msvc"
+                ]
+            }
+        ],
+        "makefile.launchConfigurations": [
+            {
+                "cwd": "/home/dmumm/4040/p1_dev/img/bin",
+                "binaryPath": "/home/dmumm/4040/p1_dev/img/bin/imgviewer",
+                "binaryArgs": []
+            }
+        ],
+        "makefile.additionalCompilerNames": [
+            "gcc"
+        ],
+        "makefile.buildLog": "${workspaceFolder}/.vscode/makefile_tools/build.log",
+        "makefile.compileCommandsPath": "${workspaceRoot}/.vscode/compile_commands.json",
+        "makefile.configurationCachePath": "${workspaceRoot}/.vscode/makefile_tools/configurationCache.json",
+        "makefile.extensionLog": "${workspaceFolder}/.vscode/makefile_tools/extension.log",
+        "makefile.extensionOutputFolder": "${workspaceFolder}/.vscode/makefile_tools/",
+        "makefile.loggingLevel": "Verbose",
+        "makefile.makeDirectory": "${workspaceFolder}",
+        "makefile.makefilePath": "${workspaceFolder}/Makefile",
+        "makefile.makePath": "/usr/bin/make",
+        "C_Cpp.codeAnalysis.clangTidy.enabled": false,
+        "C_Cpp.workspaceSymbols": "All",
+        "C_Cpp.workspaceParsingPriority": "high",
+        "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, SpaceAfterLogicalNot: true, BreakBeforeBraces: Stroustrup, AllowShortIfStatementsOnASingleLine: OnlyFirstIf, AllowShortFunctionsOnASingleLine: Empty, IndentCaseBlocks: false, IncludeBlocks: Regroup, FixNamespaceComments: true, EmptyLineBeforeAccessModifier: LogicalBlock, EmptyLineAfterAccessModifier: Always, PointerAlignment: Middle, QualifierAlignment: Right, MaxEmptyLinesToKeep: 2, AlignOperands: AlignAfterOperator, IndentAccessModifiers: false, AccessModifierOffset: -2, InsertNewlineAtEOF: true, ReferenceAlignment: Pointer, SeparateDefinitionBlocks: Always, SpaceAfterCStyleCast: false, SpaceBeforeAssignmentOperators: true, SpaceBeforeCaseColon: false, SpaceBeforeCpp11BracedList: false, SpaceBeforeParens: ControlStatements, SpaceBeforeRangeBasedForLoopColon: true, SpaceInEmptyBlock: false, AlignEscapedNewlines: Left, BreakBeforeTernaryOperators: true, CompactNamespaces: false }",
+        "C_Cpp.codeAnalysis.clangTidy.headerFilter": "",
+        "C_Cpp.errorSquiggles": "enabled"
+	}
+}
