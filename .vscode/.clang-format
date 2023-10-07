@@ -1,0 +1,90 @@
+---
+# Base style and high-level decisions
+BasedOnStyle: WebKit
+CompactNamespaces: false
+InsertNewlineAtEOF: true
+UseTab: Always
+IndentWidth: 8
+TabWidth: 8
+
+# Space configuration
+SpaceAfterLogicalNot: true
+SpaceAfterCStyleCast: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceInEmptyBlock: false
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: false
+  AfterFunctionDefinitionName: false
+  AfterOverloadedOperator: true
+SpacesInParens: Custom
+SpacesInParensOptions:
+  InConditionalStatements: false
+  InEmptyParentheses: false
+  InCStyleCasts: false
+ConstructorInitializerIndentWidth : 0
+
+# Alignment and indentation
+PointerAlignment: Middle
+QualifierAlignment: Right
+ReferenceAlignment: Pointer
+
+AlignEscapedNewlines: Left
+AlignOperands: false
+AlignAfterOpenBracket: false
+IndentCaseBlocks: false
+IndentAccessModifiers: false
+AccessModifierOffset: -2
+
+AlignArrayOfStructures: Left
+
+IndentPPDirectives: BeforeHash
+
+
+# Line breaking configurations
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortFunctionsOnASingleLine: Empty
+AlwaysBreakAfterReturnType: None
+BreakBeforeTernaryOperators: true
+BreakBeforeBinaryOperators: All
+ContinuationIndentWidth: 0
+BreakConstructorInitializers: BeforeComma
+
+# Brace wrapping configurations
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterEnum: false
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: MultiLine
+  AfterStruct: false
+  AfterFunction: true
+  AfterNamespace: false
+  SplitEmptyFunction: false
+
+# Include and namespace configurations
+IncludeBlocks: Regroup
+FixNamespaceComments: true
+
+# Modifier configurations
+EmptyLineBeforeAccessModifier: LogicalBlock
+EmptyLineAfterAccessModifier: Always
+
+# Alignment of consecutive items
+AlignConsecutiveAssignments:
+  Enable: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCompound: true
+  PadOperators: true
+AlignConsecutiveDeclarations:
+  Enable: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+
+# Other configurations
+MaxEmptyLinesToKeep: 2
+SeparateDefinitionBlocks: Always

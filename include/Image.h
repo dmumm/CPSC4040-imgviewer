@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <fstream> // Required to check if file exists
+
 
 namespace image {
 
@@ -10,92 +12,101 @@ class Image {
 
   public:
 
-    // ImgProc();
-    Image();
+	// ImgProc();
+	Image();
 
-    // ~ImgProc();
-    ~Image();
+	// ~ImgProc();
+	~Image();
 
-    void clear();
-    void clear(int width, int height, int channelCount);
+	void clear();
+	void clear(int width, int height, int channelCount);
 
-    Image * load(std::string const & filename);
+	bool load(std::string const & filename);
 
-    bool write(std::string const & filename) const;
+	bool write(std::string const & baseName, std::string & outputName) const;
 
-    int getWidth() const
-    {
-        return width;
-    } // nx(), retrieve the width
+	int getWidth() const
+	{
+		return width;
+	}
 
-    int getHeight() const
-    {
-        return height;
-    } // ny(), retrieve the height
+	int getHeight() const
+	{
+		return height;
+	}
 
-    int getChannelCount() const
-    {
-        return channelCount;
-    } // nc(), retrieve the number of channels
+	int getChannelCount() const
+	{
+		return channelCount;
+	}
 
-    float * getRawData() const
-    {
-        return pRawData;
-    } // img_data(), retrive pointer to the raw data
+	long getNumElements() const
+	{
+		return numElements;
+	}
 
-    void getValue(int iCol, int jRow, std::vector<float> & pixel) const;
-    void setValue(int iCol, int jRow, std::vector<float> const & pixel);
-    //  void interpolated_value( float iCol, float jRow, std::vector<float>& pixel) const;
+	float * getRawData() const
+	{
+		return pRawData;
+	} // img_data(), retrive pointer to the raw data
 
-    Image(Image const & imageTwo);
-    Image & operator=(Image const & imageTwo);
+	void getValue(int iCol, int jRow, std::vector<float> & pixel) const;
+	void setValue(int iCol, int jRow, std::vector<float> const & pixel);
+	//  void interpolated_value( float iCol, float jRow, std::vector<float>& pixel) const;
 
-    //  friend void swap(Image& imageOne, Image& imageTwo);
+	Image(Image const & imageTwo);
+	Image & operator= (Image const & imageTwo);
 
-    //  void operator*=(float value);
-    //  void operator/=(float value);
-    //  void operator+=(float value);
-    //  void operator-=(float value);
-    //  void operator-=(const Image& imageTwo);
-    //  void operator+=(const Image& imageTwo);
+	//  friend void swap(Image& imageOne, Image& imageTwo);
 
-    //  void compliment();
-    //  void negative();
-    //  void pow(float gamma);
-    //  void quantize(int levels);
-    //  void grayscale();
-    //  void rms_contrast();
-    //  void demean();
-    //  void log();
-    //  void exp();
+	//  void operator*=(float value);
+	//  void operator/=(float value);
+	//  void operator+=(float value);
+	//  void operator-=(float value);
+	//  void operator-=(const Image& imageTwo);
+	//  void operator+=(const Image& imageTwo);
 
-    //  void flip();
-    //  void flop();
+	//  void compliment();
+	//  void negative();
+	//  void pow(float gamma);
+	//  void quantize(int levels);
+	//  void grayscale();
+	//  void rms_contrast();
+	//  void demean();
+	//  void log();
+	//  void exp();
 
-    //  void tanh( const std::vector<float> rms);
-    //  void quench();
-    //  void logquench();
+	//  void flip();
+	//  void flop();
 
-    //  void rgb_to_hsv();
-    //  void hsv_to_rgb();
-    //  void rgb_to_cmyk();
-    //  void cmyk_to_rgb(const float K);
+	//  void tanh( const std::vector<float> rms);
+	//  void quench();
+	//  void logquench();
 
-    //  void edge_taper(int nb);
+	//  void rgb_to_hsv();
+	//  void hsv_to_rgb();
+	//  void rgb_to_cmyk();
+	//  void cmyk_to_rgb(const float K);
 
-    long index(int iCol, int jRow, int channel) const; // i, j, c
-    long index(int iCol, int jRow) const; // i, j
+	//  void edge_taper(int nb);
 
+	long index(int iCol, int jRow, int channel) const; // i, j, c
+	// long index(int iCol, int jRow) const; // i, j
+
+	// void printPixelValues(std::vector<float> const &) const;
+
+	// bool isValid() const;
+
+	float * getVerticallyFlippedData() const;
 
   private:
 
-    int width, height, channelCount; // Nx, Ny, Nc
-    long numElements; // Nsize (width * height * channelCount)
-    float * pRawData; // img_data
+	int width, height, channelCount; // Nx, Ny, Nc
+	long numElements; // Nsize (width * height * channelCount)
+	float * pRawData; // img_data
 };
 
 //  void swap(Image& imageOne, Image& imageTwo);
-
 
 } // namespace image
 #endif // IMAGE_H

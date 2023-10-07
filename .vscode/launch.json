@@ -19,6 +19,9 @@
                 {
                     "name": "LD_LIBRARY_PATH",
                     "value": "/home/dmumm/4040/p1_dev/build/lib"
+                }, {
+                "name": "DISPLAY",
+                "value": "localhost:10.0"
                 }
             ],
             "externalConsole": false,

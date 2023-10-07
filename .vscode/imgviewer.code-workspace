@@ -72,7 +72,12 @@
             "BasicViewer.C": "cpp",
             "dylproc.C": "cpp",
             "Image.C": "cpp",
-            "list": "cpp"
+            "list": "cpp",
+            "ImageProcessor.C": "cpp",
+            "Stencil.C": "cpp",
+            "*.def": "cpp",
+            "config": "cpp",
+            "export": "cpp"
         },
         "makefile.configurations": [
 
@@ -110,7 +115,6 @@
         "C_Cpp.codeAnalysis.clangTidy.enabled": false,
         "C_Cpp.workspaceSymbols": "All",
         "C_Cpp.workspaceParsingPriority": "high",
-        "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, SpaceAfterLogicalNot: true, BreakBeforeBraces: Stroustrup, AllowShortIfStatementsOnASingleLine: OnlyFirstIf, AllowShortFunctionsOnASingleLine: Empty, IndentCaseBlocks: false, IncludeBlocks: Regroup, FixNamespaceComments: true, EmptyLineBeforeAccessModifier: LogicalBlock, EmptyLineAfterAccessModifier: Always, PointerAlignment: Middle, QualifierAlignment: Right, MaxEmptyLinesToKeep: 2, AlignOperands: AlignAfterOperator, IndentAccessModifiers: false, AccessModifierOffset: -2, InsertNewlineAtEOF: true, ReferenceAlignment: Pointer, SeparateDefinitionBlocks: Always, SpaceAfterCStyleCast: false, SpaceBeforeAssignmentOperators: true, SpaceBeforeCaseColon: false, SpaceBeforeCpp11BracedList: false, SpaceBeforeParens: ControlStatements, SpaceBeforeRangeBasedForLoopColon: true, SpaceInEmptyBlock: false, AlignEscapedNewlines: Left, BreakBeforeTernaryOperators: true, CompactNamespaces: false }",
         "C_Cpp.codeAnalysis.clangTidy.headerFilter": "",
         "C_Cpp.errorSquiggles": "enabled"
 	}

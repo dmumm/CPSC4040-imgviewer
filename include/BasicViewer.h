@@ -19,6 +19,7 @@
 #define BASIC_VIEWER_H
 
 #include "Image.h"
+#include "ImageProcessor.h"
 
 #include <string>
 #include <unordered_map>
@@ -28,14 +29,14 @@ using StringVector = std::vector<std::string>;
 using StringMap = std::unordered_multimap<std::string, std::string>;
 
 struct UserInput {
-    std::string programCall;
-    std::string flag;
-    std::string imagePath;
-    std::string filename;
-    std::string imageTitle;
-    std::string fileExtension;
-    std::string imageFormat;
-    image::Image * pImage;
+	std::string programCall;
+	std::string flag;
+	std::string imagePath;
+	std::string filename;
+	std::string imageTitle;
+	std::string fileExtension;
+	std::string imageFormat;
+	image::Image image;
 };
 
 namespace viewer {
@@ -43,117 +44,115 @@ namespace viewer {
 class BasicViewer {
   public:
 
-    //! The viewer is a singleton
-    static BasicViewer * Instance()
-    {
-        if (pBasicViewer == nullptr) {
-            pBasicViewer = new BasicViewer();
-        }
-        return pBasicViewer;
-    }
+	//! The viewer is a singleton
+	static BasicViewer * Instance()
+	{
+		if (pBasicViewer == nullptr) {
+			pBasicViewer = new BasicViewer();
+		}
+		return pBasicViewer;
+	}
 
-    ~BasicViewer();
+	~BasicViewer();
 
-    //! Initialization, including GLUT initialization.
-    void Init(StringVector const & args);
+	//! Initialization, including GLUT initialization.
+	void Init(StringVector const & args);
 
-    //! Initialization, including GLUT initialization with data.
-    void Init(StringVector const & args, UserInput const details);
+	//! Initialization, including GLUT initialization with data.
+	void Init(StringVector const & args, UserInput const details);
 
-    //! Invokes the GLUT main loop.
-    void MainLoop();
+	//! Invokes the GLUT main loop.
+	void MainLoop();
 
-    //! Set the window width
-    void SetWidth(int const w)
-    {
-        width = w;
-    }
+	//! Set the window width
+	void SetWidth(int const w)
+	{
+		width = w;
+	}
 
-    //! Set the window height
-    void SetHeight(int const h)
-    {
-        height = h;
-    }
+	//! Set the window height
+	void SetHeight(int const h)
+	{
+		height = h;
+	}
 
-    //! Get the window width
-    int const & GetWidth()
-    {
-        return width;
-    }
+	//! Get the window width
+	int const & GetWidth()
+	{
+		return width;
+	}
 
-    //! Get the window height
-    int const & GetHeight()
-    {
-        return height;
-    }
+	//! Get the window height
+	int const & GetHeight()
+	{
+		return height;
+	}
 
-    //! Set the window title
-    void SetTitle(std::string const & t)
-    {
-        title = t;
-    }
+	//! Set the window title
+	void SetTitle(std::string const & t)
+	{
+		title = t;
+	}
 
-    //! Set the window title
-    void SetTitle(char const * t)
-    {
-        title = t;
-    }
+	//! Set the window title
+	void SetTitle(char const * t)
+	{
+		title = t;
+	}
 
-    //! Get the window title
-    std::string const & GetTitle()
-    {
-        return title;
-    }
+	//! Get the window title
+	std::string const & GetTitle()
+	{
+		return title;
+	}
 
-    void setImage(image::Image const * p)
-    {
-        pImage = p;
-    }
+	void setImage(image::Image & p)
+	{
+		displayedImage = p;
+	}
 
-    image::Image const * const getImage()
-    {
-        return pImage;
-    }
+	image::Image const & getImage()
+	{
+		return displayedImage;
+	}
 
-    // Callback functions
-    //! Cascading callback for initiating a display event
-    void Display();
-    //! Cascading callback for a keyboard event
-    void Keyboard(unsigned char key, int x, int y);
-    //! Cascading callback for an idle  event
-    void Idle();
+	// Callback functions
+	//! Cascading callback for initiating a display event
+	void Display();
+	//! Cascading callback for a keyboard event
+	void Keyboard(unsigned char key, int x, int y);
+	//! Cascading callback for an idle  event
+	void Idle();
 
-    //! Get the current frame
-    int GetFrame() const
-    {
-        return frame;
-    }
+	// //! Get the current frame
+	// int GetFrame() const
+	// {
+	// 	return frame;
+	// }
 
-    //! Cascading callback for usage information
-    void Usage();
+	//! Cascading callback for usage information
+	void Usage();
 
   private:
 
-    bool initialized;
-    int width, height;
-    unsigned int display_mode;
+	bool initialized;
+	int width, height;
+	unsigned int display_mode;
 
-    std::string title;
-    int mouse_x, mouse_y;
-    int keystate, button;
-    int mouse_state;
-    float current_raster_pos[4];
+	std::string title;
+	int mouse_x, mouse_y;
+	int keystate, button;
+	int mouse_state;
+	float current_raster_pos[4]; // TODO: what does this do
 
-    int frame; // TODO: verify this is necessary
+	image::Image displayedImage;
 
-    image::Image const * pImage;
+	static BasicViewer * pBasicViewer;
 
-    static BasicViewer * pBasicViewer;
-
-    // Declared private to prevent additional instances
-    BasicViewer();
-    BasicViewer(BasicViewer const &);
-    BasicViewer & operator=(BasicViewer const &);
+	// Declared private to prevent additional instances
+	BasicViewer();
+	BasicViewer(BasicViewer const &);
+	BasicViewer & operator=(BasicViewer const &);
 };
 
 BasicViewer * CreateViewer();
