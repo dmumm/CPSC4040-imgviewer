@@ -1,7 +1,0 @@
-/usr/bin/make -f /home/dmumm/4040/p1_dev/img/Makefile -C /home/dmumm/4040/p1_dev/img --dry-run --keep-going --print-directory
-make: Entering directory '/home/dmumm/4040/p1_dev/img'
-ar rv ./lib/libviewer.a base/imgviewer.o
-ar rv ./lib/libimage.a base/imgviewer.o
-g++ -Wall -g -O0 -fPIC  -fopenmp -std=c++14 base/imgviewer.C -I../build/include/ -I./include/ -I/usr/include -L./lib -lviewer -limage -L../build/lib -lOpenImageIO_Util -lOpenImageIO -lglut -lGL -lm -lGLU -o bin/imgviewer
-make: Leaving directory '/home/dmumm/4040/p1_dev/img'
- 
