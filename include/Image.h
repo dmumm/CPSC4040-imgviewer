@@ -107,11 +107,18 @@ class Image {
     std::vector<float> getChannelAverages() const;
     std::vector<float> getChannelRMSs() const;
 
+    void calculateHistograms(std::vector<std::vector<int>> &, std::vector<float> &, std::vector<float> &, int) const;
+    void normalizeHistograms(std::vector<std::vector<int>> const &, std::vector<std::vector<float>> &, int) const;
+    void computeCDFs(std::vector<std::vector<float>> const &, std::vector<std::vector<float>> &) const ;
+
+
   private:
 
-	int width, height, channelCount; // Nx, Ny, Nc
-	long numElements; // Nsize (width * height * channelCount)
-	float * pRawData; // img_data
+    int width,
+    height,
+    channelCount; // Nx, Ny, Nc
+    long numElements; // Nsize (width * height * channelCount)
+    float * pRawData; // img_data
 };
 
 //  void swap(Image& imageOne, Image& imageTwo);

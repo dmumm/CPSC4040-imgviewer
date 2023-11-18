@@ -23,6 +23,8 @@ class ImageProcessor {
     // Applies contrast transformation on the given image via average and RMS
     static void applyContrastTransformation(const Image & imageToReadFrom, Image & imageToWriteTo);
 
+    static void applyHistogramEqualization(const Image & imageToReadFrom, Image & imageToWriteTo);
+
 
   private:
 }; // class ImageProcessor

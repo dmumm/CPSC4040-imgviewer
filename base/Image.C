@@ -210,8 +210,8 @@ float * Image::getVerticallyFlippedData() const
 		int flippedRowIndex = topIndex - rowIndex;
 		for(int element = 0; element < rowSize; element++)
 		{
-                        int originalPosition =        rowIndex * rowSize + element;
-                        int flippedPosition  = flippedRowIndex * rowSize + element;
+			int originalPosition = rowIndex * rowSize + element;
+			int flippedPosition = flippedRowIndex * rowSize + element;
 
 			flippedData[flippedPosition] = pRawData[originalPosition];
 		}
@@ -222,69 +222,125 @@ float * Image::getVerticallyFlippedData() const
 
 std::vector<float> Image::getChannelAverages() const
 {
-    std::vector<float> pixelValue(getChannelCount(), 0.0f);
-    std::vector<float> channelValueSums(getChannelCount(), 0.0f);
+	std::vector<float> pixelValue(getChannelCount(), 0.0f);
+	std::vector<float> channelValueSums(getChannelCount(), 0.0f);
 
-    //compute the sum of all pixel values in each channel
-    for(int y = 0; y < getHeight(); y++)
-    {
-        for(int x = 0; x < getWidth(); x++)
-        {
-            getValue(x, y, pixelValue);
-            for(size_t channel = 0; channel < getChannelCount(); channel++)
-            {
-                channelValueSums[channel] += pixelValue[channel];
-            }
-        }
-    }
+	// compute the sum of all pixel values in each channel
+	for(int y = 0; y < getHeight(); y++)
+	{
+		for(int x = 0; x < getWidth(); x++)
+		{
+			getValue(x, y, pixelValue);
+			for(size_t channel = 0; channel < getChannelCount(); channel++)
+			{
+				channelValueSums[channel] += pixelValue[channel];
+			}
+		}
+	}
 
-    // calculate the averages of each channel
-    std::vector<float> channelAverages(getChannelCount(), 0.0f);
-    for(size_t channel = 0; channel < getChannelCount(); channel++)
-    {
-        float average = channelValueSums[channel] / getPixelCount();
-        channelAverages[channel] = average;
-    }
+	// calculate the averages of each channel
+	std::vector<float> channelAverages(getChannelCount(), 0.0f);
+	for(size_t channel = 0; channel < getChannelCount(); channel++)
+	{
+		float average = channelValueSums[channel] / getPixelCount();
+		channelAverages[channel] = average;
+	}
 
-    return channelAverages;
+	return channelAverages;
 }
 
 std::vector<float> Image::getChannelRMSs() const
 {
 
-    std::vector<float> const channelAverages = getChannelAverages();
-    size_t const channelCount = getChannelCount();
+	std::vector<float> const channelAverages = getChannelAverages();
+	size_t const channelCount = getChannelCount();
 
-    std::vector<float> pixelValue(channelCount, 0.0f);
+	std::vector<float> pixelValue(channelCount, 0.0f);
 
-    // Calculate the sum of squared differences for RMS
-    std::vector<float> sumsOfSquares(channelCount, 0.0f);
-    for(int y = 0; y < getHeight(); y++)
-    {
-        for(int x = 0; x < getWidth(); x++)
-        {
-            getValue(x, y, pixelValue);
-            for(size_t channel = 0; channel < channelCount; channel++)
-            {
-                float pixelChannelDeviation = pixelValue[channel] - channelAverages[channel];
-                sumsOfSquares[channel] += pixelChannelDeviation * pixelChannelDeviation;
-            }
-        }
-    }
+	// Calculate the sum of squared differences for RMS
+	std::vector<float> sumsOfSquares(channelCount, 0.0f);
+	for(int y = 0; y < getHeight(); y++)
+	{
+		for(int x = 0; x < getWidth(); x++)
+		{
+			getValue(x, y, pixelValue);
+			for(size_t channel = 0; channel < channelCount; channel++)
+			{
+				float pixelChannelDeviation = pixelValue[channel] - channelAverages[channel];
+				sumsOfSquares[channel] += pixelChannelDeviation * pixelChannelDeviation;
+			}
+		}
+	}
 
-    // Calculate the RMS for each channel
-    std::vector<float> channelRMSs(channelCount, 0.0f);
-    for(size_t channel = 0; channel < channelCount; channel++)
-    {
-        channelRMSs[channel] = std::sqrt(sumsOfSquares[channel] / getPixelCount());
-    }
+	// Calculate the RMS for each channel
+	std::vector<float> channelRMSs(channelCount, 0.0f);
+	for(size_t channel = 0; channel < channelCount; channel++)
+	{
+		channelRMSs[channel] = std::sqrt(sumsOfSquares[channel] / getPixelCount());
+	}
 
-    return channelRMSs;
+	return channelRMSs;
 }
 
+void Image::calculateHistograms(std::vector<std::vector<int>> & histograms, std::vector<float> & minValues, std::vector<float> & maxValues, int numBins) const
+{
+	size_t const channelCount = getChannelCount();
+	size_t const height = getHeight();
+	size_t const width = getWidth();
 
+	std::vector<float> pixelValue(channelCount, 0.0f);
 
+	histograms.assign(channelCount, std::vector<int>(numBins, 0));
+	minValues.assign(channelCount, std::numeric_limits<float>::max());
+	maxValues.assign(channelCount, std::numeric_limits<float>::lowest());
 
+	// Find min and max values for each channel and fill histograms
+	for(int y = 0; y < height; y++)
+	{
+		for(int x = 0; x < width; x++)
+		{
+			getValue(x, y, pixelValue);
+			for(size_t channel = 0; channel < channelCount; channel++)
+			{
+				minValues[channel] = std::min(minValues[channel], pixelValue[channel]);
+				maxValues[channel] = std::max(maxValues[channel], pixelValue[channel]);
+				int binIndex = static_cast<int>((pixelValue[channel] - minValues[channel]) / (maxValues[channel] - minValues[channel]) * (numBins - 1));
+				histograms[channel][binIndex]++;
+			}
+		}
+	}
+}
+
+void Image::normalizeHistograms(std::vector<std::vector<int>> const & histograms, std::vector<std::vector<float>> & normalizedHistograms, int totalPixels) const
+{
+	size_t channelCount = histograms.size();
+	int numBins = histograms[0].size();
+	normalizedHistograms.assign(channelCount, std::vector<float>(numBins, 0.0f));
+
+	for(size_t channel = 0; channel < channelCount; channel++)
+	{
+		for(int bin = 0; bin < numBins; bin++)
+		{
+			normalizedHistograms[channel][bin] = static_cast<float>(histograms[channel][bin]) / totalPixels;
+		}
+	}
+}
+
+void Image::computeCDFs(std::vector<std::vector<float>> const & normalizedHistograms, std::vector<std::vector<float>>& CDFs) const
+{
+    size_t channelCount = normalizedHistograms.size();
+    int numBins = normalizedHistograms[0].size();
+    CDFs.assign(channelCount, std::vector<float>(numBins, 0.0f));
+
+    for(size_t channel = 0; channel < channelCount; channel++)
+    {
+        CDFs[channel][0] = normalizedHistograms[channel][0];
+        for(int bin = 1; bin < numBins; bin++)
+        {
+            CDFs[channel][bin] = CDFs[channel][bin-1] + normalizedHistograms[channel][bin];
+        }
+    }
+}
 
 // void Image::printPixelValues(std::vector<float> const & pixel) const
 // {

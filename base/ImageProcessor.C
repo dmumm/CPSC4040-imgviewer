@@ -178,3 +178,40 @@ void ImageProcessor::applyContrastTransformation(Image const & input, Image & ou
         }
     }
 }
+
+void ImageProcessor::applyHistogramEqualization(const Image & input, Image & output)
+{
+    output.clear();
+    output = input;
+
+    size_t const channelCount = input.getChannelCount();
+    size_t const height = input.getHeight();
+    size_t const width = input.getWidth();
+    size_t const pixelCount = width * height;
+
+    const int NUM_BINS = 500;
+    std::vector<std::vector<int>> histograms;
+    std::vector<std::vector<float>> normalizedHistograms, CDFs;
+    std::vector<float> minValues, maxValues;
+    std::vector<float> pixelValue(channelCount, 0.0f);
+
+    input.calculateHistograms(histograms, minValues, maxValues, NUM_BINS);
+    input.normalizeHistograms(histograms, normalizedHistograms, pixelCount);
+    input.computeCDFs(normalizedHistograms, CDFs);
+
+    // Apply CDF to remap pixel values
+    for(int y = 0; y < height; y++)
+    {
+        for(int x = 0; x < width; x++)
+        {
+            input.getValue(x, y, pixelValue);
+            for(size_t channel = 0; channel < pixelValue.size(); channel++)
+            {
+                int binIndex = static_cast<int>((pixelValue[channel] - minValues[channel]) / (maxValues[channel] - minValues[channel]) * (NUM_BINS - 1));
+                float CDF_value = CDFs[channel][binIndex];
+                pixelValue[channel] = CDF_value * (maxValues[channel] - minValues[channel]) + minValues[channel];
+            }
+            output.setValue(x, y, pixelValue);
+        }
+    }
+}
