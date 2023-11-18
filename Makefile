@@ -44,23 +44,22 @@ INCLUDES = -I../build/include/ -I./include/ -I/usr/include
 # 	ar r $(LIBSTENCIL) $?
 # 	$(CXX) base/imgviewer.C $(INCLUDES) -L./lib -lviewer -limage -lprocessor -lstencil -L../build/lib -lOpenImageIO_Util -lOpenImageIO $(GLLDFLAGS) -o bin/imgviewer
 
-lib/lib%.a: base/%.o
+lib/lib%.a: base/%.o | create_directories
 	@echo "$(GREEN)Archiving $@...$(RESET)"
 	ar r $@ $<
 
-bin/imgviewer: $(OFILES) $(LIBS)
+bin/imgviewer: $(OFILES) $(LIBS) | create_directories
 	@echo "$(CYAN)Linking $@...$(RESET)"
 	$(CXX) base/imgviewer.C $(INCLUDES) -L./lib -Wl,--start-group $(LIBS) -Wl,--end-group -L../build/lib -lOpenImageIO_Util -lOpenImageIO $(GLLDFLAGS) -o $@
 
-all: clean base/imgviewer
+all: clean create_directories base/imgviewer
 	@echo "$(GREEN)Build complete.$(RESET)"
-
 
 clean:
 	@echo "$(RED)Cleaning up...$(RESET)"
-	rm -rf bin/imgviewer doc/html *.o base/*.o base/*~ include/*~ python/*~ $(LIBS) *~ swig/*.cxx swig/*~ swig/*.so swig/*.o swig/StarterViewer.py swig/*.pyc ./*.pyc python/*StarterViewer*
+	rm -rf bin/* lib/*.a doc/html *.o base/*.o base/*~ include/*~ python/*~ *~ swig/*.cxx swig/*~ swig/*.so swig/*.o swig/StarterViewer.py swig/*.pyc ./*.pyc python/*StarterViewer*
 
-.PHONY: doc
-doc:
-	@echo "Generating documentation..."
-	cd doc;doxygen Doxyfile
+.PHONY: create_directories
+
+create_directories:
+	@mkdir -p bin doc lib
