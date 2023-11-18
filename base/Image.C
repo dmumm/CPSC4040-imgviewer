@@ -54,7 +54,7 @@ bool file_exists(std::string const & name)
 	return existence;
 }
 
-bool Image::write(std::string const & baseName, std::string & outputName) const
+bool Image::writeJPG(std::string const & baseName, std::string & outputName) const
 {
 	if(pRawData == nullptr) return false;
 
@@ -74,6 +74,28 @@ bool Image::write(std::string const & baseName, std::string & outputName) const
 	output->close();
 
 	return true;
+
+}
+
+bool Image::writeEXR(std::string const & baseName, std::string & outputName) const
+{
+    if(pRawData == nullptr) return false;
+
+    std::string const EXTENSION = ".exr";
+
+    outputName = baseName + EXTENSION;
+    while(file_exists(outputName))
+        outputName.insert(outputName.size() - EXTENSION.size(), ".edited");
+
+    auto output = ImageOutput::create(outputName);
+    if(!output) return false;
+
+    ImageSpec spec(width, height, channelCount, TypeDesc::FLOAT);
+    output->open(outputName, spec);
+    output->write_image(TypeDesc::FLOAT, pRawData);
+    output->close();
+
+    return true;
 }
 
 void Image::clear(int newWidth, int newHeight, int newChannelCount)
@@ -304,7 +326,22 @@ void Image::calculateHistograms(std::vector<std::vector<int>> & histograms, std:
 			{
 				minValues[channel] = std::min(minValues[channel], pixelValue[channel]);
 				maxValues[channel] = std::max(maxValues[channel], pixelValue[channel]);
+			}
+		}
+	}
+
+	// Fill histograms
+	for(int y = 0; y < height; y++)
+	{
+		for(int x = 0; x < width; x++)
+		{
+			getValue(x, y, pixelValue);
+			for(size_t channel = 0; channel < channelCount; channel++)
+			{
+				if(maxValues[channel] == minValues[channel]) continue; // Avoid division by zero
+
 				int binIndex = static_cast<int>((pixelValue[channel] - minValues[channel]) / (maxValues[channel] - minValues[channel]) * (numBins - 1));
+				//binIndex = std::max(0, std::min(binIndex, numBins - 1)); // Ensure bin index is within valid range
 				histograms[channel][binIndex]++;
 			}
 		}
@@ -326,20 +363,20 @@ void Image::normalizeHistograms(std::vector<std::vector<int>> const & histograms
 	}
 }
 
-void Image::computeCDFs(std::vector<std::vector<float>> const & normalizedHistograms, std::vector<std::vector<float>>& CDFs) const
+void Image::computeCDFs(std::vector<std::vector<float>> const & normalizedHistograms, std::vector<std::vector<float>> & CDFs) const
 {
-    size_t channelCount = normalizedHistograms.size();
-    int numBins = normalizedHistograms[0].size();
-    CDFs.assign(channelCount, std::vector<float>(numBins, 0.0f));
+	size_t channelCount = normalizedHistograms.size();
+	int numBins = normalizedHistograms[0].size();
+	CDFs.assign(channelCount, std::vector<float>(numBins, 0.0f));
 
-    for(size_t channel = 0; channel < channelCount; channel++)
-    {
-        CDFs[channel][0] = normalizedHistograms[channel][0];
-        for(int bin = 1; bin < numBins; bin++)
-        {
-            CDFs[channel][bin] = CDFs[channel][bin-1] + normalizedHistograms[channel][bin];
-        }
-    }
+	for(size_t channel = 0; channel < channelCount; channel++)
+	{
+		CDFs[channel][0] = normalizedHistograms[channel][0];
+		for(int bin = 1; bin < numBins; bin++)
+		{
+			CDFs[channel][bin] = CDFs[channel][bin - 1] + normalizedHistograms[channel][bin];
+		}
+	}
 }
 
 // void Image::printPixelValues(std::vector<float> const & pixel) const

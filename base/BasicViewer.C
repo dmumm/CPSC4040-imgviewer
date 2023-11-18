@@ -179,6 +179,15 @@ void BasicViewer::Keyboard(unsigned char key, int x, int y)
 
 	switch(key) {
 
+    case 'H': {
+        cout << "Applying histogram equalization...\n";
+        Image tempImage(displayedImage);
+        ImageProcessor::applyHistogramEqualization(displayedImage, tempImage);
+        displayedImage = tempImage;
+        glutPostRedisplay();
+        cout << "done\n";
+        break;
+    }
     case 'C': {
         Image tempImage(displayedImage);
         ImageProcessor::applyContrastTransformation(displayedImage, tempImage);
@@ -205,7 +214,7 @@ void BasicViewer::Keyboard(unsigned char key, int x, int y)
 		string const base_name = GetTitle();
 
 		string actual_filename;
-		displayedImage.write(base_name, actual_filename);
+		displayedImage.writeJPG(base_name, actual_filename);
 
 		cout << "Wrote displayed image to file: " << actual_filename << "\n";
 		break;
@@ -226,7 +235,7 @@ void BasicViewer::Keyboard(unsigned char key, int x, int y)
 		string const base_name = GetTitle();
 
 		string actual_filename;
-		displayedImage.write(base_name, actual_filename);
+		displayedImage.writeJPG(base_name, actual_filename);
 
 		cout << "Wrote displayed image to file: " << actual_filename << "\n";
 		break;
@@ -296,7 +305,8 @@ void BasicViewer::Usage()
 	cout << "--------------------------------------------------------------\n";
 	cout << "BasicViewer usage:\n";
 	cout << "--------------------------------------------------------------\n";
-	cout << "C      convert image to contrast units\n";
+    cout << "H      convert to histogram equalization\n";
+    cout << "C      convert image to contrast units\n";
     cout << "J      julia set applied\n";
 	cout << "j      current image saved to file\n";
 	cout << "g/G    decreases/increases gamma by 10%\n";

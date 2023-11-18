@@ -23,7 +23,8 @@ class Image {
 
 	bool load(std::string const & filename);
 
-	bool write(std::string const & baseName, std::string & outputName) const;
+	bool writeJPG(std::string const & baseName, std::string & outputName) const;
+	bool writeEXR(std::string const & baseName, std::string & outputName) const;
 
 	int getWidth() const
 	{
