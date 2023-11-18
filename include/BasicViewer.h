@@ -19,6 +19,7 @@
 #define BASIC_VIEWER_H
 
 #include "Image.h"
+#include "FractalSet.h"
 #include "ImageProcessor.h"
 
 #include <string>

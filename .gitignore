@@ -28,3 +28,6 @@ base/imgviewer.C
 .vscode/makefile_tools/targets.log
 .vscode/databases/browse.vc.db
 .vscode/databases/browse.vc.db
+.vscode/databases/browse.vc.db
+.vscode/databases/browse.vc.db-shm
+.vscode/databases/browse.vc.db-wal

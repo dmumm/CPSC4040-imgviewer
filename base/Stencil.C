@@ -8,6 +8,8 @@ Stencil::Stencil(int halfwidth)
 	// Compute the full size of the stencil
 	int const fullWidth = (2 * half_width + 1);
 	int const fullSize = fullWidth * fullWidth;
+	int const centerIndex = (fullSize / 2);
+
 
 	float random[fullSize];
 
@@ -20,13 +22,12 @@ Stencil::Stencil(int halfwidth)
 	float sum = 0.0f;
 	for(int i = 0; i < fullSize; ++i)
 	{
-		if(i == 4) continue;
+		if(i == centerIndex) continue;
 		random[i] = dist(gen);
 		sum += random[i];
 	}
 
 	// Compute the value of the center element so that the sum of all elements is 1
-	int const centerIndex = floor(fullSize / 2);
 	random[centerIndex] = 1.0f - sum;
 
 	// Initialize stencil values to above choice
@@ -34,6 +35,9 @@ Stencil::Stencil(int halfwidth)
 	for(int i = 0; i < fullSize; i++) {
 		stencil_values[i] = random[i];
 	}
+
+    printStencil();
+
 }
 
 Stencil::~Stencil()
@@ -73,16 +77,16 @@ float const & Stencil::operator() (int iCol, int jRow) const
 	return stencil_values[getIndex(iCol, jRow)];
 }
 
-// void Stencil::printStencil(void) const
-// {
-// 	for(int i = 0; i < getFullWidth(); i++) {
-// 		for(int j = 0; j < getFullWidth(); j++) {
-// 			int index = i * getFullWidth() + j;
-// 			std::cout << std::setw(6) << std::setprecision(2) << stencil_values[index] << " ";
-// 		}
-// 		std::cout << "\n";
-// 	}
-// }
+void Stencil::printStencil(void) const
+{
+	for(int i = 0; i < getFullWidth(); i++) {
+		for(int j = 0; j < getFullWidth(); j++) {
+			int index = i * getFullWidth() + j;
+			std::cout << std::setw(6) << std::setprecision(2) << stencil_values[index] << " ";
+		}
+		std::cout << "\n";
+	}
+}
 
 // float & Stencil::operator() (int iCol, int jRow)
 // {

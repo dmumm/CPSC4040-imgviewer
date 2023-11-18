@@ -3,6 +3,8 @@
 
 #include <ctime>
 #include <random>
+#include <iostream> //TODO: debug
+#include <iomanip> //TODO: debug
 
 namespace image {
 
@@ -26,7 +28,7 @@ class Stencil {
 
 	int getIndex(int iCol, int jRow) const;
 
-	// void printStencil(void) const;
+	void printStencil(void) const;
 
 	// float & operator()(int iCol, int jRow);
 	float const & operator() (int iCol, int jRow) const;

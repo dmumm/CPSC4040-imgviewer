@@ -157,10 +157,55 @@ void BasicViewer::Display()
 void BasicViewer::Keyboard(unsigned char key, int x, int y)
 {
 
+
+	// Julia Set Constants
+
+	double const CENTER_X = 0.03811;
+	double const CENTER_Y = 0.01329;
+
+	double const ZC_REAL = 0.8 * cos(254.3 * 3.14159265 / 180.0);
+	double const ZC_IMAG = 0.8 * sin(254.3 * 3.14159265 / 180.0);
+	Point const ZC = { ZC_REAL, ZC_IMAG };
+
+
+	double const CYCLES = 2;
+
+	// Configurations
+
+	constexpr std::array<double, 3> RANGES = { 1.0, 1.0e-3, 1.0e-6 };
+	double const RANGE = RANGES[2];
+	constexpr std::array<int, 3> NB_ITERATIONS = { 100, 250, 500 };
+    int const NB_ITERATION = NB_ITERATIONS[0];
+
 	switch(key) {
 
-	case 'j': // Fall through to J
 	case 'J': {
+		Point center = { CENTER_X, CENTER_Y };
+		JuliaSet juliaWarp(ZC, NB_ITERATION, CYCLES);
+		image::ColorLUT colorLUTInstance; // default gamma value
+
+		cout << "Before ApplyFractalWarpLUT:" << endl;
+		cout << "Center: (" << center.x << ", " << center.y << ")" << endl;
+		cout << "Range: " << RANGE << endl;
+		ApplyFractalWarpLUT(center, RANGE, juliaWarp, colorLUTInstance, displayedImage); // Or adjust index as needed.
+
+		glutPostRedisplay();
+		cout << "Displayed Julia Set\n";
+		break;
+	}
+	case 'j': {
+		string base_name = GetTitle();
+
+		// Create a filename containing the range and nb_iterations
+		string filename = "julia.range" + std::to_string(RANGE) + ".iterations" + std::to_string(NB_ITERATION) + ".jpg";
+
+		string actual_filename;
+		displayedImage.write(filename, actual_filename); // Assuming your write function can handle this format.
+		cout << "Wrote displayed Julia Set to file: " << actual_filename << "\n";
+		break;
+	}
+	case 'o': // Fall through to S
+	case 'O': {
 		string const base_name = GetTitle();
 
 		string actual_filename;
@@ -234,7 +279,8 @@ void BasicViewer::Usage()
 	cout << "--------------------------------------------------------------\n";
 	cout << "BasicViewer usage:\n";
 	cout << "--------------------------------------------------------------\n";
-	cout << "j/J    writes image to demowritetoafile.jpg\n";
+	cout << "J      julia set applied\n";
+	cout << "j      julia set written to file\n";
 	cout << "g/G    decreases/increases gamma by 10%\n";
 	cout << "s      applies stencil with bounded linear convolution\n";
 	cout << "w      applies stencil with circular linear convolution\n";

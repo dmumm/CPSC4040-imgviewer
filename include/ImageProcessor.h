@@ -2,7 +2,7 @@
 #define IMAGE_PROCESSOR_H
 
 #include "Image.h"
-#include "ImageProcessor.h"
+#include "FractalSet.h"
 #include "Stencil.h"
 
 #include <cmath> // for std::pow
@@ -20,8 +20,6 @@ class ImageProcessor {
 	static void doCircularLinearConvolution(Stencil const & stencil, const Image & imageToReadFrom, Image & imageToWriteTo);
 	static void doBoundedLinearConvolution(Stencil const & stencil, const Image & imageToReadFrom, Image & imageToWriteTo);
 
-
-	// Add more image processing methods as needed
 
 
   private:
