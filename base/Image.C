@@ -220,6 +220,72 @@ float * Image::getVerticallyFlippedData() const
 	return flippedData;
 }
 
+std::vector<float> Image::getChannelAverages() const
+{
+    std::vector<float> pixelValue(getChannelCount(), 0.0f);
+    std::vector<float> channelValueSums(getChannelCount(), 0.0f);
+
+    //compute the sum of all pixel values in each channel
+    for(int y = 0; y < getHeight(); y++)
+    {
+        for(int x = 0; x < getWidth(); x++)
+        {
+            getValue(x, y, pixelValue);
+            for(size_t channel = 0; channel < getChannelCount(); channel++)
+            {
+                channelValueSums[channel] += pixelValue[channel];
+            }
+        }
+    }
+
+    // calculate the averages of each channel
+    std::vector<float> channelAverages(getChannelCount(), 0.0f);
+    for(size_t channel = 0; channel < getChannelCount(); channel++)
+    {
+        float average = channelValueSums[channel] / getPixelCount();
+        channelAverages[channel] = average;
+    }
+
+    return channelAverages;
+}
+
+std::vector<float> Image::getChannelRMSs() const
+{
+
+    std::vector<float> const channelAverages = getChannelAverages();
+    size_t const channelCount = getChannelCount();
+
+    std::vector<float> pixelValue(channelCount, 0.0f);
+
+    // Calculate the sum of squared differences for RMS
+    std::vector<float> sumsOfSquares(channelCount, 0.0f);
+    for(int y = 0; y < getHeight(); y++)
+    {
+        for(int x = 0; x < getWidth(); x++)
+        {
+            getValue(x, y, pixelValue);
+            for(size_t channel = 0; channel < channelCount; channel++)
+            {
+                float pixelChannelDeviation = pixelValue[channel] - channelAverages[channel];
+                sumsOfSquares[channel] += pixelChannelDeviation * pixelChannelDeviation;
+            }
+        }
+    }
+
+    // Calculate the RMS for each channel
+    std::vector<float> channelRMSs(channelCount, 0.0f);
+    for(size_t channel = 0; channel < channelCount; channel++)
+    {
+        channelRMSs[channel] = std::sqrt(sumsOfSquares[channel] / getPixelCount());
+    }
+
+    return channelRMSs;
+}
+
+
+
+
+
 // void Image::printPixelValues(std::vector<float> const & pixel) const
 // {
 

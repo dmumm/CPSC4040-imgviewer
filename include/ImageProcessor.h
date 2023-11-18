@@ -20,6 +20,8 @@ class ImageProcessor {
 	static void doCircularLinearConvolution(Stencil const & stencil, const Image & imageToReadFrom, Image & imageToWriteTo);
 	static void doBoundedLinearConvolution(Stencil const & stencil, const Image & imageToReadFrom, Image & imageToWriteTo);
 
+    // Applies contrast transformation on the given image via average and RMS
+    static void applyContrastTransformation(const Image & imageToReadFrom, Image & imageToWriteTo);
 
 
   private:

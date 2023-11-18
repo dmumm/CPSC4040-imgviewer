@@ -45,6 +45,11 @@ class Image {
 		return numElements;
 	}
 
+	size_t getPixelCount() const
+	{
+		return getWidth() * getHeight();
+	}
+
 	float * getRawData() const
 	{
 		return pRawData;
@@ -98,6 +103,9 @@ class Image {
 	// bool isValid() const;
 
 	float * getVerticallyFlippedData() const;
+
+    std::vector<float> getChannelAverages() const;
+    std::vector<float> getChannelRMSs() const;
 
   private:
 

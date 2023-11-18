@@ -194,16 +194,25 @@ void BasicViewer::Keyboard(unsigned char key, int x, int y)
 		break;
 	}
 	case 'j': {
-		string base_name = GetTitle();
-
-		// Create a filename containing the range and nb_iterations
-		string filename = "julia.range" + std::to_string(RANGE) + ".iterations" + std::to_string(NB_ITERATION) + ".jpg";
+		string const base_name = GetTitle();
 
 		string actual_filename;
-		displayedImage.write(filename, actual_filename); // Assuming your write function can handle this format.
-		cout << "Wrote displayed Julia Set to file: " << actual_filename << "\n";
+		displayedImage.write(base_name, actual_filename);
+
+		cout << "Wrote displayed image to file: " << actual_filename << "\n";
 		break;
 	}
+	// case 'j': {
+	// 	string base_name = GetTitle();
+
+	// 	// Create a filename containing the range and nb_iterations
+	// 	string filename = "julia.range" + std::to_string(RANGE) + ".iterations" + std::to_string(NB_ITERATION) + ".jpg";
+
+	// 	string actual_filename;
+	// 	displayedImage.write(filename, actual_filename); // Assuming your write function can handle this format.
+	// 	cout << "Wrote displayed Julia Set to file: " << actual_filename << "\n";
+	// 	break;
+	// }
 	case 'o': // Fall through to S
 	case 'O': {
 		string const base_name = GetTitle();
@@ -280,7 +289,7 @@ void BasicViewer::Usage()
 	cout << "BasicViewer usage:\n";
 	cout << "--------------------------------------------------------------\n";
 	cout << "J      julia set applied\n";
-	cout << "j      julia set written to file\n";
+	cout << "j      current image saved to file\n";
 	cout << "g/G    decreases/increases gamma by 10%\n";
 	cout << "s      applies stencil with bounded linear convolution\n";
 	cout << "w      applies stencil with circular linear convolution\n";

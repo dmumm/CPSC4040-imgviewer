@@ -141,3 +141,39 @@ void ImageProcessor::doCircularLinearConvolution(Stencil const & stencil, Image 
 		}
 	}
 }
+
+void ImageProcessor::applyContrastTransformation(Image const & input, Image & output)
+{
+
+	output.clear();
+	output = input;
+
+    size_t const channelCount = input.getChannelCount();
+    size_t const height = input.getHeight();
+    size_t const width = input.getWidth();
+
+    std::vector<float> const channelAverages = input.getChannelAverages();
+    std::vector<float> const channelRMSs = input.getChannelRMSs();
+
+    std::vector<float> inputPixelValue(channelCount, 0.0f);
+    std::vector<float> outputPixelValue(channelCount, 0.0f);
+
+#pragma omp parallel for
+    for(int y = 0; y < height; y++)
+    {
+        for(int x = 0; x < width; x++)
+        {
+            input.getValue(x, y, inputPixelValue);
+            outputPixelValue = inputPixelValue;
+            float differenceFromAverage = 0.0f;
+            for(size_t channel = 0; channel < channelCount; channel++)
+            {
+                if(channelRMSs[channel] == 0) continue;
+
+                differenceFromAverage = inputPixelValue[channel] - channelAverages[channel];
+                outputPixelValue[channel] = differenceFromAverage / channelRMSs[channel];
+            }
+            output.setValue(x, y, outputPixelValue);
+        }
+    }
+}
