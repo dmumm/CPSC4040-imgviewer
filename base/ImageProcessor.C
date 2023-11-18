@@ -195,13 +195,13 @@ void ImageProcessor::applyHistogramEqualization(const Image & input, Image & out
     std::vector<float> minValues, maxValues;
     std::vector<float> pixelValue(channelCount, 0.0f);
 
-    std::cout << "Calculating histograms...\n";
+    // std::cout << "Calculating histograms...\n";
     input.calculateHistograms(histograms, minValues, maxValues, NUM_BINS);
-    std::cout << "Normalizing histograms...\n";
+    // std::cout << "Normalizing histograms...\n";
     input.normalizeHistograms(histograms, normalizedHistograms, pixelCount);
-    std::cout << "Calculating CDFs...\n";
+    // std::cout << "Calculating CDFs...\n";
     input.computeCDFs(normalizedHistograms, CDFs);
-    std::cout << "Applying CDFs...\n";
+    // std::cout << "Applying CDFs...\n";
 
     // Apply CDF to remap pixel values
     for(int y = 0; y < height; y++)

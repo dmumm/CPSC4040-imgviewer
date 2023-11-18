@@ -31,3 +31,6 @@ base/imgviewer.C
 .vscode/databases/browse.vc.db
 .vscode/databases/browse.vc.db-shm
 .vscode/databases/browse.vc.db-wal
+zip-project.py
+.gitignore
+IMG_0006.exr
