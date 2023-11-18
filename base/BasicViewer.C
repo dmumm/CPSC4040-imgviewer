@@ -235,7 +235,7 @@ void BasicViewer::Keyboard(unsigned char key, int x, int y)
 		string const base_name = GetTitle();
 
 		string actual_filename;
-		displayedImage.writeJPG(base_name, actual_filename);
+		displayedImage.writeEXR(base_name, actual_filename);
 
 		cout << "Wrote displayed image to file: " << actual_filename << "\n";
 		break;
