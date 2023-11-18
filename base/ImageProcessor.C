@@ -158,10 +158,9 @@ void ImageProcessor::applyContrastTransformation(Image const & input, Image & ou
     std::vector<float> inputPixelValue(channelCount, 0.0f);
     std::vector<float> outputPixelValue(channelCount, 0.0f);
 
-#pragma omp parallel for
-    for(int y = 0; y < height; y++)
+    for(size_t y = 0; y < height; y++)
     {
-        for(int x = 0; x < width; x++)
+        for(size_t x = 0; x < width; x++)
         {
             input.getValue(x, y, inputPixelValue);
             outputPixelValue = inputPixelValue;
@@ -173,7 +172,9 @@ void ImageProcessor::applyContrastTransformation(Image const & input, Image & ou
                 differenceFromAverage = inputPixelValue[channel] - channelAverages[channel];
                 outputPixelValue[channel] = differenceFromAverage / channelRMSs[channel];
             }
+            // std::cout << "Contrast Transformation attempting at pixel (" << x << ", " << y << ")...\n";
             output.setValue(x, y, outputPixelValue);
+            // std::cout << "Contrast Transformation applied at pixel (" << x << ", " << y << ")...\n";
         }
     }
 }

@@ -179,6 +179,14 @@ void BasicViewer::Keyboard(unsigned char key, int x, int y)
 
 	switch(key) {
 
+    case 'C': {
+        Image tempImage(displayedImage);
+        ImageProcessor::applyContrastTransformation(displayedImage, tempImage);
+        displayedImage = tempImage;
+        glutPostRedisplay();
+        cout << "Contrast Transformation applied\n";
+        break;
+    }
 	case 'J': {
 		Point center = { CENTER_X, CENTER_Y };
 		JuliaSet juliaWarp(ZC, NB_ITERATION, CYCLES);
@@ -288,7 +296,8 @@ void BasicViewer::Usage()
 	cout << "--------------------------------------------------------------\n";
 	cout << "BasicViewer usage:\n";
 	cout << "--------------------------------------------------------------\n";
-	cout << "J      julia set applied\n";
+	cout << "C      convert image to contrast units\n";
+    cout << "J      julia set applied\n";
 	cout << "j      current image saved to file\n";
 	cout << "g/G    decreases/increases gamma by 10%\n";
 	cout << "s      applies stencil with bounded linear convolution\n";
